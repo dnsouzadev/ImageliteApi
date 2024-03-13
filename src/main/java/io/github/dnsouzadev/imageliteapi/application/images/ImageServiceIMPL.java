@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ImageServiceIMPL implements ImageService {
@@ -18,4 +20,11 @@ public class ImageServiceIMPL implements ImageService {
     public Image save(Image image) {
         return repository.save(image);
     }
+
+    @Override
+    public Optional<Image> getById(String id) {
+        return repository.findById(id);
+    }
+
+
 }
