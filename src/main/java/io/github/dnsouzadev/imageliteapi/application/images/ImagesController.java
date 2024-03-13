@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +26,7 @@ import java.util.Objects;
 public class ImagesController {
 
     private final ImageService service;
+    private final ImageMapper mapper;
 
     @PostMapping()
     public ResponseEntity save(
@@ -33,15 +36,15 @@ public class ImagesController {
             ) throws IOException {
         log.info("Imagem recebida: name: {}, size: {}, tags: {}", name, file.getSize(), tags);
 
-        Image image = Image.builder()
-                .name(name)
-                .size(file.getSize())
-                .extension(ImageExtension.valueOf(MediaType.valueOf(file.getContentType())))
-                .tags(String.join(",", tags))
-                .file(file.getBytes())
-                .build();
+        Image image = mapper.mapToImage(file, name, tags);
+        Image savedImage = service.save(image);
+        URI imageURI = buildImageURL(savedImage);
 
-        service.save(image);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(imageURI).build();
+    }
+
+    private URI buildImageURL(Image image) {
+        String imagePath = "/" + image.getId();
+        return ServletUriComponentsBuilder.fromCurrentRequest().path(imagePath).build().toUri();
     }
 }
