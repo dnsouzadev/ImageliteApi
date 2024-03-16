@@ -1,13 +1,11 @@
 package io.github.dnsouzadev.imageliteapi.application.images;
 
 import io.github.dnsouzadev.imageliteapi.domain.entity.Image;
-import io.github.dnsouzadev.imageliteapi.domain.enums.ImageExtension;
 import io.github.dnsouzadev.imageliteapi.domain.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
