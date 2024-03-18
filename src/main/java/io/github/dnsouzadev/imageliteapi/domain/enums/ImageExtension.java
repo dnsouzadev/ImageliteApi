@@ -24,4 +24,11 @@ public enum ImageExtension {
                 .findFirst()
                 .orElse(null);
     }
+
+    public static ImageExtension ofName(String value) {
+        return Arrays.stream(values())
+                .filter(imageExtension -> imageExtension.name().equalsIgnoreCase(value))
+                .findFirst()
+                .orElse(null);
+    }
 }
